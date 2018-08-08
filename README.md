@@ -1,10 +1,12 @@
 # eos_luckpoint
-EOS DAPP实战开发教程源码，包含前端的用户界面，和后端的智能合约代码。
+基于EOS 1.0.10版本的EOS DAPP实战开发教程源码，包含前端的用户界面，和后端的智能合约代码。
 开发者基于这套代码，可以开发出一个包含前后端的完整的DAPP结构出来。
 
 源码说明：
 -----------------------------------
 实现了一个简单的用户界面，及简单的智能合约。
+EOS tag: 1.0.10
+Eosjs tag: 15.0.6
 
 
 使用说明：
@@ -26,29 +28,29 @@ EOS DAPP实战开发教程源码，包含前端的用户界面，和后端的智
 4、启动eos节点：
 > cd /你的eos所在父级目录/eos/build/programs/nodeos
 >
-> ./nodeos -e -p eosio --plugin eosio::wallet_api_plugin --plugin eosio::chain_api_plugin --plugin eosio::account_history_api_plugin
+> ./nodeos -e -p eosio --plugin eosio::wallet_api_plugin --plugin eosio::chain_api_plugin --plugin eosio::account_history_api_plugin --access-control-allow-origin='*'
 
 5、另起一个控制台，用户初始化钱包、合约等：
   cd /你的eos所在父级目录/eos
 
   // 创建钱包、导入私钥、创建及部署合约
-> cleos wallet create
+> cleos --wallet-url http://127.0.0.1:8888 wallet create -n luckpoint
 >
-> cleos wallet unlock
+> cleos --wallet-url http://127.0.0.1:8888 wallet unlock -n luckpoint
 >
-> cleos wallet import 5JcziTgwUhQgKyvmvc4ygEPGonQPVrBYNTwezAg5UuJ7djyVDWQ
+> cleos --wallet-url http://127.0.0.1:8888 wallet import 5JcziTgwUhQgKyvmvc4ygEPGonQPVrBYNTwezAg5UuJ7djyVDWQ 
 >
-> cleos create account eosio luckpoint.co EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ
+> cleos --wallet-url http://127.0.0.1:8888 create account eosio luckpoint.co EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ
 >
-> cleos set contract luckpoint.co ./contracts/luckpoint -p luckpoint.co
+> cleos --wallet-url http://127.0.0.1:8888 set contract luckpoint.co ./contracts/luckpoint -p luckpoint.co
 
   // 创建banker、player1、player2这三个账户
 >
-> cleos create account eosio banker EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ
+> cleos --wallet-url http://127.0.0.1:8888 create account eosio banker EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ
 >
-> cleos create account eosio player1 EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ
+> cleos --wallet-url http://127.0.0.1:8888 create account eosio player1 EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ
 >
-> cleos create account eosio player2 EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ
+> cleos --wallet-url http://127.0.0.1:8888 create account eosio player2 EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ EOS6zzuh8wUHAmEftGNzHLRDCaxtVmTdBKWNCMDb9rF3DhQMB1XuQ
 >
 
 6、再启动一个控制台，用于启动web服务：
@@ -67,21 +69,21 @@ EOS DAPP实战开发教程源码，包含前端的用户界面，和后端的智
 
 // 创建一个新游戏
 >
-> cleos push action luckpoint.co creategame '["banker"]' -p banker
+> cleos --wallet-url http://127.0.0.1:8888 push action luckpoint.co creategame '["banker"]' -p banker
 >
 >
 
 // 玩家开牌命令（第一个参数为游戏id，需要与实际的游戏id对应）
 >
-> cleos push action luckpoint.co opencard '[1,1]' -p player1
+> cleos --wallet-url http://127.0.0.1:8888 push action luckpoint.co opencard '[1,1]' -p player1
 >
-> cleos push action luckpoint.co opencard '[1,2]' -p player2
+> cleos --wallet-url http://127.0.0.1:8888 push action luckpoint.co opencard '[1,2]' -p player2
 >
 >
 
 // 查询表数据
 >
-> cleos get table luckpoint.co luckpoint.co game
+> cleos --wallet-url http://127.0.0.1:8888 get table luckpoint.co luckpoint.co game
 >
 >
 

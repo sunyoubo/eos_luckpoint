@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import EOSJS from 'eosjs'
+import Eos from 'eosjs'
 
 let contract_name = 'luckpoint.co'
 let account_name = 'banker'
@@ -52,7 +52,7 @@ class LuckPoint extends React.Component {
     this.gameprops.gameDataList = []
 
     // 读取游戏数据
-    let eosjs = EOSJS.Localnet(EOSJS_CONFIG.clientConfig)
+    let eosjs = Eos(EOSJS_CONFIG.clientConfig)
     eosjs.contract(contract_name)
       .then((contract) => {
         console.log('_updateGameData::' + contract_name + '合约加载成功！')
@@ -110,7 +110,7 @@ class LuckPoint extends React.Component {
     this._showLoading(true, '正在创建游戏... ...')
 
     let _sender = account_name
-    let eosjs = EOSJS.Localnet(EOSJS_CONFIG.clientConfig)
+    let eosjs = Eos(EOSJS_CONFIG.clientConfig)
     eosjs.contract(EOSJS_CONFIG.contractName)
       .then((contract) => {
         console.log('_createGame::加载合约成功！')
@@ -133,7 +133,7 @@ class LuckPoint extends React.Component {
     this._showLoading(true, '玩家' + play_id + '正在开牌 ...')
 
     let _sender = account_name
-    let eosjs = EOSJS.Localnet(EOSJS_CONFIG.clientConfig)
+    let eosjs = Eos(EOSJS_CONFIG.clientConfig)
     eosjs.contract(EOSJS_CONFIG.contractName)
       .then((contract) => {
         console.log('_playerOpenCard::加载合约成功！')
